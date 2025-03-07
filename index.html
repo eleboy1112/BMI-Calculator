@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор ИМТ</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Калькулятор индекса массы тела</h1>
+            <p class="subtitle">Узнайте свой ИМТ и получите рекомендации по здоровому весу</p>
+        </header>
+        
+        <main>
+            <div class="calculator-card">
+                <div class="input-section">
+                    <h2>Введите ваши данные</h2>
+                    <div class="form-group">
+                        <label for="height">Рост (см):</label>
+                        <input type="number" id="height" min="50" max="250" placeholder="Например: 175">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Вес (кг):</label>
+                        <input type="number" id="weight" min="20" max="300" placeholder="Например: 70">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Пол:</label>
+                        <select id="gender">
+                            <option value="male">Мужской</option>
+                            <option value="female">Женский</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Возраст:</label>
+                        <input type="number" id="age" min="1" max="120" placeholder="Например: 30">
+                    </div>
+                    <div class="form-group">
+                        <label for="activity">Уровень физической активности:</label>
+                        <select id="activity">
+                            <option value="sedentary">Малоподвижный образ жизни</option>
+                            <option value="light">Легкая активность (1-3 раза в неделю)</option>
+                            <option value="moderate">Умеренная активность (3-5 раз в неделю)</option>
+                            <option value="high">Высокая активность (6-7 раз в неделю)</option>
+                            <option value="very_high">Очень высокая активность (профессиональный спорт)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="body-type">Тип телосложения:</label>
+                        <select id="body-type">
+                            <option value="ectomorph">Эктоморф (худощавое)</option>
+                            <option value="mesomorph">Мезоморф (атлетическое)</option>
+                            <option value="endomorph">Эндоморф (плотное)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Особенности здоровья:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="health-diabetes"> Диабет/преддиабет</label>
+                            <label><input type="checkbox" id="health-hypertension"> Гипертония</label>
+                            <label><input type="checkbox" id="health-joint"> Проблемы с суставами</label>
+                            <label><input type="checkbox" id="health-heart"> Сердечно-сосудистые заболевания</label>
+                        </div>
+                    </div>
+                    <button id="calculate-btn">Рассчитать ИМТ</button>
+                </div>
+                
+                <div class="result-section" id="result-section">
+                    <h2>Ваш результат</h2>
+                    <div class="result-container">
+                        <div class="bmi-value">
+                            <span id="bmi-value">--</span>
+                            <span class="bmi-unit">кг/м²</span>
+                        </div>
+                        <div class="bmi-category" id="bmi-category">Введите данные для расчета</div>
+                    </div>
+                    
+                    <div class="bmi-scale">
+                        <div class="scale-labels">
+                            <span>16</span>
+                            <span>18.5</span>
+                            <span>25</span>
+                            <span>30</span>
+                            <span>35</span>
+                            <span>40</span>
+                        </div>
+                        <div class="scale-bar">
+                            <div class="scale-segment underweight"></div>
+                            <div class="scale-segment normal"></div>
+                            <div class="scale-segment overweight"></div>
+                            <div class="scale-segment obese-1"></div>
+                            <div class="scale-segment obese-2"></div>
+                            <div class="scale-segment obese-3"></div>
+                        </div>
+                        <div class="scale-categories">
+                            <span>Недостаточный</span>
+                            <span>Нормальный</span>
+                            <span>Избыточный</span>
+                            <span>Ожирение</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bmi-info" id="bmi-info">
+                        <!-- Информация о категории ИМТ будет добавлена через JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <h2>Что такое ИМТ?</h2>
+                <p>Индекс массы тела (ИМТ) — величина, позволяющая оценить степень соответствия массы человека и его роста и тем самым косвенно оценить, является ли масса недостаточной, нормальной или избыточной.</p>
+                
+                <h3>Категории ИМТ:</h3>
+                <ul class="bmi-categories-list">
+                    <li><span class="category-color underweight"></span> <strong>Недостаточный вес:</strong> ИМТ менее 18.5</li>
+                    <li><span class="category-color normal"></span> <strong>Нормальный вес:</strong> ИМТ от 18.5 до 24.9</li>
+                    <li><span class="category-color overweight"></span> <strong>Избыточный вес:</strong> ИМТ от 25 до 29.9</li>
+                    <li><span class="category-color obese-1"></span> <strong>Ожирение I степени:</strong> ИМТ от 30 до 34.9</li>
+                    <li><span class="category-color obese-2"></span> <strong>Ожирение II степени:</strong> ИМТ от 35 до 39.9</li>
+                    <li><span class="category-color obese-3"></span> <strong>Ожирение III степени:</strong> ИМТ 40 и более</li>
+                </ul>
+                
+                <p class="disclaimer">Важно: ИМТ не учитывает многие факторы, такие как мышечная масса, распределение жира и другие индивидуальные особенности. Для полной оценки состояния здоровья проконсультируйтесь с врачом.</p>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Калькулятор ИМТ. Все права защищены.</p>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
