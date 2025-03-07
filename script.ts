@@ -80,7 +80,7 @@ function calculateBMI(): void {
     
     bmiValueElement.textContent = bmi.toFixed(1);
     
-    const category = getBMICategory(bmi, age);
+    const category = getBMICategory(bmi, age, activity, bodyType, healthConditions);
     displayBMICategory(category, bmi, gender, age, activity, bodyType, healthConditions, idealWeightRange);
     
     const resultSection = document.getElementById('result-section');
@@ -449,7 +449,7 @@ function displayBMICategory(
                     <li>${age > 40 ? 'Высокий риск развития диабета 2 типа и метаболического синдрома' : 'Риск раннего развития инсулинорезистентности'}</li>
                     <li>Значительная нагрузка на опорно-двигательный аппарат (${age > 50 ? 'особенно высокий риск артроза коленных и тазобедренных суставов' : 'риск раннего износа суставов'})</li>
                     <li>${age > 45 ? 'Высокий риск апноэ сна и дыхательной недостаточности' : 'Нарушения дыхания во время сна и снижение качества отдыха'}</li>
-                    <li>${gender === 'female' ? 'Повышенный риск гормональных нарушений и проблем с фертильностью' : 'Снижение уровня тестостерона и возможные проблемы с потенцией'}</li>
+                    <li>${gender === 'female' ? 'Повышенный риск гормональных нарушений и проблем с фертильности' : 'Снижение уровня тестостерона и возможные проблемы с потенцией'}</li>
                     <li>Повышенный риск ${age > 50 ? 'колоректального рака и рака поджелудочной железы' : 'неалкогольной жировой болезни печени'}</li>
                 </ul>
                 <p><strong>Персонализированный план снижения веса:</strong></p>
