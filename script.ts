@@ -80,7 +80,7 @@ function calculateBMI(): void {
     
     bmiValueElement.textContent = bmi.toFixed(1);
     
-    const category = getBMICategory(bmi, age, activity, bodyType, healthConditions);
+    const category = getBMICategory(bmi, age);
     displayBMICategory(category, bmi, gender, age, activity, bodyType, healthConditions, idealWeightRange);
     
     const resultSection = document.getElementById('result-section');
@@ -108,8 +108,8 @@ function validateInputs(height: number, weight: number, age: number): boolean {
     return true;
 }
 
-function getBMICategory(bmi: number, age: number, activity: ActivityLevel, bodyType: BodyType, healthConditions: HealthConditions): BMICategory {
-    const thresholds = getAgeAdjustedThresholds(age, activity, bodyType, healthConditions);
+function getBMICategory(bmi: number, age: number): BMICategory {
+    const thresholds = getAgeAdjustedThresholds(age);
     
     if (bmi < thresholds.severeUnderweight) return 'severe-underweight';
     if (bmi < thresholds.underweight) return 'underweight';
@@ -120,49 +120,13 @@ function getBMICategory(bmi: number, age: number, activity: ActivityLevel, bodyT
     return 'obese-3';
 }
 
-function getAgeAdjustedThresholds(age: number, activity: ActivityLevel, bodyType: BodyType, healthConditions: HealthConditions): BMIThresholds {
+function getAgeAdjustedThresholds(age: number): BMIThresholds {
     let adjustment = 0;
     
-    // Age-based adjustment
     if (age < 18) {
-        adjustment -= 1;
+        adjustment = -1;
     } else if (age > 65) {
-        adjustment += 1;
-    }
-    
-    // Activity level adjustment
-    switch(activity) {
-        case 'high':
-        case 'very_high':
-            adjustment += 1; // Higher muscle mass typically means higher BMI
-            break;
-        case 'moderate':
-            adjustment += 0.5;
-            break;
-        case 'sedentary':
-            adjustment -= 0.5; // Sedentary lifestyle may indicate more fat mass
-            break;
-    }
-    
-    // Body type adjustment
-    switch(bodyType) {
-        case 'mesomorph':
-            adjustment += 1; // Muscular build typically means higher BMI
-            break;
-        case 'ectomorph':
-            adjustment -= 1; // Lean build typically means lower BMI
-            break;
-        case 'endomorph':
-            adjustment += 0.5; // Naturally higher body mass
-            break;
-    }
-    
-    // Health conditions adjustment
-    if (healthConditions.diabetes || healthConditions.heartProblems) {
-        adjustment -= 0.5; // Stricter BMI thresholds for these conditions
-    }
-    if (healthConditions.jointProblems) {
-        adjustment -= 0.5; // Lower weight recommended for joint health
+        adjustment = 1;
     }
     
     return {
@@ -449,7 +413,7 @@ function displayBMICategory(
                     <li>${age > 40 ? 'Высокий риск развития диабета 2 типа и метаболического синдрома' : 'Риск раннего развития инсулинорезистентности'}</li>
                     <li>Значительная нагрузка на опорно-двигательный аппарат (${age > 50 ? 'особенно высокий риск артроза коленных и тазобедренных суставов' : 'риск раннего износа суставов'})</li>
                     <li>${age > 45 ? 'Высокий риск апноэ сна и дыхательной недостаточности' : 'Нарушения дыхания во время сна и снижение качества отдыха'}</li>
-                    <li>${gender === 'female' ? 'Повышенный риск гормональных нарушений и проблем с фертильности' : 'Снижение уровня тестостерона и возможные проблемы с потенцией'}</li>
+                    <li>${gender === 'female' ? 'Повышенный риск гормональных нарушений и проблем с фертильностью' : 'Снижение уровня тестостерона и возможные проблемы с потенцией'}</li>
                     <li>Повышенный риск ${age > 50 ? 'колоректального рака и рака поджелудочной железы' : 'неалкогольной жировой болезни печени'}</li>
                 </ul>
                 <p><strong>Персонализированный план снижения веса:</strong></p>
