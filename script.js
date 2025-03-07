@@ -73,7 +73,12 @@ document.addEventListener('DOMContentLoaded', function() {
         bmiValueElement.textContent = bmi.toFixed(1);
         
         // Determine BMI category and display appropriate information
-        const category = getBMICategory(bmi, age);
+        const category = getBMICategory(bmi, age, activity, bodyType, {
+            diabetes: hasDiabetes,
+            hypertension: hasHypertension,
+            jointProblems: hasJointProblems,
+            heartProblems: hasHeartProblems
+        });
         displayBMICategory(category, bmi, gender, age, activity, bodyType, {
             diabetes: hasDiabetes,
             hypertension: hasHypertension,
@@ -90,9 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Function to determine BMI category
-    function getBMICategory(bmi, age) {
-        // Adjust BMI thresholds based on age
-        let thresholds = getAgeAdjustedThresholds(age);
+    function getBMICategory(bmi, age, activity, bodyType, healthConditions) {
+        // Adjust BMI thresholds based on age and other factors
+        let thresholds = getAgeAdjustedThresholds(age, activity, bodyType, healthConditions);
         
         if (bmi < thresholds.severeUnderweight) return 'severe-underweight';
         if (bmi < thresholds.underweight) return 'underweight';
@@ -103,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return 'obese-3';
     }
 
-    function getAgeAdjustedThresholds(age) {
+    function getAgeAdjustedThresholds(age, activity, bodyType, healthConditions) {
         // Default adult thresholds
         let thresholds = {
             severeUnderweight: 16,
@@ -114,13 +119,11 @@ document.addEventListener('DOMContentLoaded', function() {
             obese2: 40
         };
         
-        // Get activity level and body type from form
-        const activity = activitySelect.value;
-        const bodyType = bodyTypeSelect.value;
-        const hasDiabetes = diabetesCheckbox.checked;
-        const hasHypertension = hypertensionCheckbox.checked;
-        const hasJointProblems = jointCheckbox.checked;
-        const hasHeartProblems = heartCheckbox.checked;
+        // Extract health conditions
+        const hasDiabetes = healthConditions.diabetes;
+        const hasHypertension = healthConditions.hypertension;
+        const hasJointProblems = healthConditions.jointProblems;
+        const hasHeartProblems = healthConditions.heartProblems;
         
         // Adjust thresholds based on activity level
         let activityFactor = 1.0;
