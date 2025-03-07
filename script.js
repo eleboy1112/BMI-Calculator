@@ -114,77 +114,19 @@ document.addEventListener('DOMContentLoaded', function() {
             obese2: 40
         };
         
-        // Get activity level and body type from form
-        const activity = activitySelect.value;
-        const bodyType = bodyTypeSelect.value;
-        const hasDiabetes = diabetesCheckbox.checked;
-        const hasHypertension = hypertensionCheckbox.checked;
-        const hasJointProblems = jointCheckbox.checked;
-        const hasHeartProblems = heartCheckbox.checked;
-        
-        // Adjust thresholds based on activity level
-        let activityFactor = 1.0;
-        switch(activity) {
-            case 'very_high':
-                activityFactor = 1.2;
-                break;
-            case 'high':
-                activityFactor = 1.15;
-                break;
-            case 'moderate':
-                activityFactor = 1.1;
-                break;
-            case 'light':
-                activityFactor = 1.05;
-                break;
-            default: // sedentary
-                activityFactor = 1.0;
-        }
-        
-        // Adjust thresholds based on body type
-        let bodyTypeFactor = 1.0;
-        switch(bodyType) {
-            case 'ectomorph':
-                bodyTypeFactor = 0.95;
-                break;
-            case 'endomorph':
-                bodyTypeFactor = 1.1;
-                break;
-            default: // mesomorph
-                bodyTypeFactor = 1.0;
-        }
-        
-        // Apply activity and body type adjustments
-        Object.keys(thresholds).forEach(key => {
-            thresholds[key] *= (activityFactor * bodyTypeFactor);
-        });
-        
-        // Further adjust thresholds for health conditions
-        if (hasDiabetes || hasHypertension || hasHeartProblems) {
-            // Lower thresholds for people with metabolic/cardiovascular conditions
-            Object.keys(thresholds).forEach(key => {
-                thresholds[key] *= 0.95;
-            });
-        }
-        
-        if (hasJointProblems) {
-            // Lower overweight/obese thresholds for people with joint problems
-            thresholds.overweight *= 0.95;
-            thresholds.obese1 *= 0.95;
-            thresholds.obese2 *= 0.95;
-        }
-        
         // Adjust thresholds for elderly (65+)
         if (age >= 65) {
-            thresholds.underweight = 22 * (activityFactor * bodyTypeFactor);
-            thresholds.normal = 27 * (activityFactor * bodyTypeFactor);
-            thresholds.overweight = 32 * (activityFactor * bodyTypeFactor);
+            thresholds.underweight = 22;
+            thresholds.normal = 27;
+            thresholds.overweight = 32;
         }
         // Adjust thresholds for youth (under 18)
         else if (age < 18) {
-            thresholds.underweight = 17 * (activityFactor * bodyTypeFactor);
-            thresholds.normal = 23 * (activityFactor * bodyTypeFactor);
-            thresholds.overweight = 28 * (activityFactor * bodyTypeFactor);
+            // Use WHO child growth standards percentiles
+            // These are simplified adjustments
+            thresholds.underweight = 17;
+            thresholds.normal = 23;
+            thresholds.overweight = 28;
         }
         
         return thresholds;
